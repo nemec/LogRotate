@@ -1,0 +1,19 @@
+﻿{
+  "C:\Users\nemecd\tmp\logrotate\log.txt": {
+    compress: "gzip",
+    rotate: "sizeonly",
+    size: "5MB",
+    maxrotations: -1,
+    whenempty: "skip",
+    whenmissing: "skip"
+  },
+  "C:\Users\nemecd\tmp\logrotate\log.txt": {
+    compress: "gzip",
+    rotate: "sizeonly",
+    size: "5MB",
+    maxrotations: -1,
+    whenempty: "skip",
+    whenmissing: "skip",
+    cleanup: "truncate"  // none, truncate, recreate, delete
+  }
+}
