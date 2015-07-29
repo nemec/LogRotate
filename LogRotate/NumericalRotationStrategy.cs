@@ -8,6 +8,10 @@ using PathLib;
 
 namespace LogRotate
 {
+    /// <summary>
+    /// Add an integer suffix to the end of the basename, with lower
+    /// integers being more recent logs.
+    /// </summary>
     public class NumericalRotationStrategy : IRotationStrategy
     {
         public ICompressionScheme Compression { get; set; }
@@ -75,11 +79,9 @@ namespace LogRotate
                 fnameBuilder.Append(extension);
             }
 
-            if (Compression != null && !String.IsNullOrEmpty(Compression.Extension) &&
-                logFile.Extension != "." + Compression.Extension)
+            if (Compression != null)
             {
-                fnameBuilder.Append(".");
-                fnameBuilder.Append(Compression.Extension);
+                Compression.AppendExtension(fnameBuilder);
             }
 
             return logFile.WithFilename(fnameBuilder.ToString());

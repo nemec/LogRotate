@@ -8,23 +8,33 @@ using PathLib;
 
 namespace LogRotate
 {
+    /// <summary>
+    /// Archives old logs with a given number of options.
+    /// </summary>
     public class LogRotator
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(LogRotator));
 
-        private readonly bool _dryRun;
         public LogRotator(bool dryRun)
         {
-            _dryRun = dryRun;
         }
 
-        public bool Rotate(IPath sourceFile, IRotationStrategy rotationStrategy, ConfigFileOptions options, bool forceRotate = false)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sourceFile"></param>
+        /// <param name="rotationStrategy"></param>
+        /// <param name="options"></param>
+        /// <param name="forceRotate"></param>
+        /// <returns></returns>
+        public bool Rotate(IPath sourceFile, IRotationStrategy rotationStrategy, ConfigFileOptions options, bool forceRotate = false, bool dryRun = false)
         {
+            // Allows sourceFile to represent a glob.
             return sourceFile.Parent().ListDir(sourceFile.Filename)
-                .All(file => RotateSingle(file, rotationStrategy, options, forceRotate));
+                .All(file => RotateSingle(file, rotationStrategy, options, forceRotate, dryRun));
         }
 
-        private bool RotateSingle(IPath sourceFile, IRotationStrategy rotationStrategy, ConfigFileOptions options, bool forceRotate = false)
+        private bool RotateSingle(IPath sourceFile, IRotationStrategy rotationStrategy, ConfigFileOptions options, bool forceRotate, bool dryRun)
         {
             if (!sourceFile.Exists())
             {
@@ -50,7 +60,6 @@ namespace LogRotate
                 }
             }
 
-            ICompressionScheme compression = options.Compress;
             var maxFileSizeBytes = ByteConverter.ParseString(options.Size);
 
             if (!forceRotate && 
@@ -65,10 +74,10 @@ namespace LogRotate
             {
                 switch (options.WhenEmpty)
                 {
-                    case LogfileEmptyBehavior.Skip:
+                    case LogFileEmptyBehavior.Skip:
                         Logger.InfoFormat("{0} is empty, skipping.", sourceFile.Filename);
                         return false;
-                    case LogfileEmptyBehavior.Error:
+                    case LogFileEmptyBehavior.Error:
                         throw new InvalidOperationException(string.Format("Source file {0} is empty. Cannot rotate.", sourceFile.Filename));
                     default:
                         Logger.InfoFormat("{0} is empty, rotating empty file.", sourceFile.Filename);
@@ -83,9 +92,9 @@ namespace LogRotate
             
             Logger.InfoFormat("Rotating {0} to {1}", sourceFile, destinationFile);
 
-            ShiftOldFiles(sourceFile, rotationStrategy, options.MaxRotations, _dryRun);
-            
-            CopyContents(sourceFile, destinationFile, compression, _dryRun);
+            ShiftOldFiles(sourceFile, rotationStrategy, options.MaxRotations, dryRun);
+
+            CopyContents(sourceFile, destinationFile, options.Compress, dryRun);
             
             options.Cleanup.Cleanup(sourceFile);
 
@@ -158,23 +167,23 @@ namespace LogRotate
             }
             if (filesToDelete.Any())
             {
-                Logger.DebugFormat("Deleting old logs: {0}",
+                Logger.DebugFormat("Deleting archived logs: {0}",
                     String.Join(", ", filesToDelete.Select(f => f.Filename)));
             }
             else
             {
-                Logger.Debug("No logs to delete.");
+                Logger.Debug("No archived logs to delete.");
             }
 
             while (!dryRun && filesToDelete.Count > 0)
             {
                 var lastDeleted = filesToDelete.Pop();
-                File.Delete(lastDeleted.ToString());
+                lastDeleted.FileInfo.Delete();
             }
 
             if (filesToRotate.Count == 0)
             {
-                Logger.Debug("No logs to rotate.");
+                Logger.Debug("No archived logs to rotate.");
                 return;
             }
             
@@ -182,12 +191,16 @@ namespace LogRotate
             {
                 var sourceFile = filesToRotate.Pop();
                 var destFile = rotationStrategy.GetNextRotationForFile(sourceFile);
+                if (sourceFile.Equals(destFile))
+                {
+                    continue;
+                }
                 Logger.DebugFormat("Rotating file {0} to {1}",
                     sourceFile.Filename, destFile);
 
                 if (!dryRun && !sourceFile.Equals(destFile))
                 {
-                    File.Move(sourceFile.ToString(), destFile.ToString());
+                    sourceFile.FileInfo.MoveTo(destFile.ToString());
                 }
             }
         }

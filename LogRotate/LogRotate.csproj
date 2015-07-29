@@ -31,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\LogRotate.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="clipr, Version=1.4.5.0, Culture=neutral, processorArchitecture=MSIL">
@@ -44,9 +45,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PathLib, Version=0.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="PathLib, Version=0.9.5.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\pathlib\WindowsPathLib\bin\Release\PathLib.dll</HintPath>
+      <HintPath>..\packages\PathLib.0.9.5.1\lib\net20\PathLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,9 +56,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsPathLib">
-      <HintPath>..\..\pathlib\WindowsPathLib\bin\Release\WindowsPathLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CleanupBehavior.cs" />
@@ -71,7 +69,7 @@
     <Compile Include="Compression\ICompressionScheme.cs" />
     <Compile Include="Enumeration.cs" />
     <Compile Include="IRotatedFile.cs" />
-    <Compile Include="LogfileEmptyBehavior.cs" />
+    <Compile Include="LogFileEmptyBehavior.cs" />
     <Compile Include="LogFileMissingBehavior.cs" />
     <Compile Include="LogRotator.cs" />
     <Compile Include="Compression\NoCompression.cs" />

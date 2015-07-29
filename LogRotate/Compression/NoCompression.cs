@@ -11,7 +11,7 @@ namespace LogRotate.Compression
 
         public override string Extension
         {
-            get { return null; }
+            get { return ""; }
         }
 
         public override Stream GetCompressionStream(FileStream stream)

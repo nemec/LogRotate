@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using LogRotate.Compression;
 using PathLib;
 
@@ -86,13 +87,20 @@ namespace LogRotate
             {
                 return logFile;
             }
-            var ext = String.Join("", logFile.Extensions);
-            if (Compression != null && ext.EndsWith(Compression.Extension))
+
+            var fnameBuilder = new StringBuilder();
+            fnameBuilder.Append(logFile.BasenameWithoutExtensions);
+            fnameBuilder.Append(DateTime.Today.ToString(DateFormat));
+
+            foreach (var extension in logFile.Extensions)
             {
-                ext += "." + Compression.Extension;
+                fnameBuilder.Append(extension);
             }
-            var date = DateTime.Today.ToString(DateFormat);
-            return logFile.WithFilename(logFile.BasenameWithoutExtensions + date + ext);
+            if (Compression != null)
+            {
+                Compression.AppendExtension(fnameBuilder);
+            }
+            return logFile.WithFilename(fnameBuilder.ToString());
         }
     }
 }

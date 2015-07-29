@@ -58,7 +58,7 @@ namespace LogRotate
 
             public override void Cleanup(IPath file)
             {
-                File.Delete(file.ToString());
+                file.FileInfo.Delete();
             }
         }
 
@@ -71,9 +71,8 @@ namespace LogRotate
 
             public override void Cleanup(IPath file)
             {
-                var str = file.ToString();
-                File.Delete(str);
-                using (File.Create(str))
+                file.FileInfo.Delete();
+                using (file.FileInfo.Create())
                 {
                     // Close immediately
                 }

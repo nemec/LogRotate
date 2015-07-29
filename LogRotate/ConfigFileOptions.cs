@@ -24,7 +24,7 @@ namespace LogRotate
 
         public int MaxRotations { get; set; }
 
-        public LogfileEmptyBehavior WhenEmpty { get; set; }
+        public LogFileEmptyBehavior WhenEmpty { get; set; }
 
         public LogFileMissingBehavior WhenMissing { get; set; }
 

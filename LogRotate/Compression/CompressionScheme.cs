@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Text;
 
 namespace LogRotate.Compression
 {
@@ -12,6 +14,16 @@ namespace LogRotate.Compression
         protected CompressionScheme(int value, string displayName) 
             : base(value, displayName)
         {
+        }
+
+        public void AppendExtension(StringBuilder filenameBuilder)
+        {
+            if (!String.IsNullOrEmpty(Extension) && 
+                !filenameBuilder.ToString().EndsWith("." + Extension))
+            {
+                filenameBuilder.Append(".");
+                filenameBuilder.Append(Extension);
+            }
         }
 
         public abstract string Extension { get; }

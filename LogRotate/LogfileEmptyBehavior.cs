@@ -1,7 +1,7 @@
 ﻿
 namespace LogRotate
 {
-    public enum LogfileEmptyBehavior
+    public enum LogFileEmptyBehavior
     {
         Skip,
         Rotate,

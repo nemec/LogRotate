@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace LogRotate.Compression
 {
@@ -20,6 +21,11 @@ namespace LogRotate.Compression
         public Stream GetCompressionStream(FileStream stream)
         {
             throw new NotImplementedException();
+        }
+
+        public void AppendExtension(StringBuilder filenameBuilder)
+        {
+            _compression.AppendExtension(filenameBuilder);
         }
     }
 }
