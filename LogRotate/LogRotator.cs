@@ -30,7 +30,8 @@ namespace LogRotate
         public bool Rotate(IPath sourceFile, IRotationStrategy rotationStrategy, ConfigFileOptions options, bool forceRotate = false, bool dryRun = false)
         {
             // Allows sourceFile to represent a glob.
-            return sourceFile.Parent().ListDir(sourceFile.Filename)
+            var parent = sourceFile.Parent() ?? PathLib.Path.CurrentDirectory;
+            return parent.ListDir(sourceFile.Filename)
                 .All(file => RotateSingle(file, rotationStrategy, options, forceRotate, dryRun));
         }
 

@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogRotate", "LogRotate\LogRotate.csproj", "{CED2B34D-6E6B-44E5-8B67-2061B018A1CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogRotate.UnitTest", "LogRotate.UnitTest\LogRotate.UnitTest.csproj", "{F45F5229-AE13-41F7-91EC-EFCF5ED8AAD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CED2B34D-6E6B-44E5-8B67-2061B018A1CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CED2B34D-6E6B-44E5-8B67-2061B018A1CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CED2B34D-6E6B-44E5-8B67-2061B018A1CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45F5229-AE13-41F7-91EC-EFCF5ED8AAD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45F5229-AE13-41F7-91EC-EFCF5ED8AAD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45F5229-AE13-41F7-91EC-EFCF5ED8AAD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45F5229-AE13-41F7-91EC-EFCF5ED8AAD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
